@@ -19,9 +19,10 @@ class OrganizationController extends Controller
     public function index()
     {
         $organizations = $this->orgService->getUserOrganizations(auth()->id());
-
+        
         return response()->json($organizations);
     }
+
     public function store(StoreOrganizationRequest $request)
     {
         try {
@@ -43,11 +44,9 @@ class OrganizationController extends Controller
     public function getReviews(Organization $organization, GetReviewsRequest $request)
     {
         $page = $request->input('page', 1);
-
         $perPage = $request->input('per_page', 50);
 
         $reviews = $this->orgService->getReviews($organization, $page, $perPage);
-
         return response()->json($reviews);
     }
 
@@ -64,7 +63,6 @@ class OrganizationController extends Controller
     public function destroy(Organization $organization)
     {
         $this->orgService->delete($organization);
-        
         return response()->json(['message' => 'Организация удалена']);
     }
 }

@@ -36,17 +36,17 @@ class OrganizationService
 
         return Organization::updateOrCreate(
             [
-                'user_id' => $userId,
+                'user_id'    => $userId,
                 'yandex_url' => $yandexUrl,
             ],
             [
                 'organization_id' => $parsedData['organization_id'],
-                'name' => $parsedData['name'],
-                'average_rating' => $parsedData['average_rating'],
-                'total_ratings' => $parsedData['total_ratings'],
-                'total_reviews' => $parsedData['total_reviews'],
-                'reviews_cache' => $parsedData['reviews'],
-                'last_parsed_at' => now(),
+                'name'            => $parsedData['name'],
+                'average_rating'  => $parsedData['average_rating'],
+                'total_ratings'   => $parsedData['total_ratings'],
+                'total_reviews'   => $parsedData['total_reviews'],
+                'reviews_cache'   => $parsedData['reviews'],
+                'last_parsed_at'  => now(),
             ]
         );
     }
@@ -54,19 +54,16 @@ class OrganizationService
     public function getReviews(Organization $organization, int $page, int $perPage): array
     {
         $reviews = $organization->reviews_cache ?? [];
-
         $total = count($reviews);
-
         $offset = ($page - 1) * $perPage;
-
         $data = array_slice($reviews, $offset, $perPage);
 
         return [
-            'data' => $data,
-            'total' => $total,
-            'per_page' => $perPage,
+            'data'         => $data,
+            'total'        => $total,
+            'per_page'     => $perPage,
             'current_page' => $page,
-            'last_page' => (int) ceil($total / $perPage),
+            'last_page'    => (int) ceil($total / $perPage),
         ];
     }
 
@@ -75,12 +72,12 @@ class OrganizationService
         $parsedData = $this->parser->parse($organization->yandex_url);
 
         $organization->update([
-            'name' => $parsedData['name'],
-            'average_rating' => $parsedData['average_rating'],
-            'total_ratings' => $parsedData['total_ratings'],
-            'total_reviews' => $parsedData['total_reviews'],
-            'reviews_cache' => $parsedData['reviews'],
-            'last_parsed_at' => now(),
+            'name'            => $parsedData['name'],
+            'average_rating'  => $parsedData['average_rating'],
+            'total_ratings'   => $parsedData['total_ratings'],
+            'total_reviews'   => $parsedData['total_reviews'],
+            'reviews_cache'   => $parsedData['reviews'],
+            'last_parsed_at'  => now(),
         ]);
 
         return $organization;

@@ -94,16 +94,19 @@ services:
         networks:
             - sail
     selenium:
-        image: selenium/standalone-chromium
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        volumes:
-            - '/dev/shm:/dev/shm'
+        image: selenium/standalone-chromium:latest
         networks:
             - sail
+        ports:
+            - "4444:4444"
+            - "7900:7900"
+        volumes:
+            - /dev/shm:/dev/shm
+
 networks:
     sail:
         driver: bridge
+
 volumes:
     sail-mysql:
         driver: local
